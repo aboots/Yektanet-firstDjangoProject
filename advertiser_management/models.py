@@ -14,6 +14,7 @@ class Advertiser(models.Model):
 
     def setName(self, name):
         self.name = name
+        self.save()
 
     @staticmethod
     def getTotalClicks():
@@ -31,9 +32,11 @@ class Advertiser(models.Model):
 
     def incClicks(self):
         self.clicks += 1
+        self.save()
 
     def incViews(self):
         self.views += 1
+        self.save()
 
     def getViews(self):
         return self.views
@@ -55,21 +58,25 @@ class Ad(models.Model):
 
     def setTitle(self, title):
         self.title = title
+        self.save()
 
     def getImgUrl(self):
         return self.imgUrl
 
     def setImgUrl(self, imgUrl):
         self.imgUrl = imgUrl
+        self.save()
 
     def getLink(self):
         return self.link
 
     def setLink(self, link):
         self.link = link
+        self.save()
 
     def setAdvertiser(self, advertiser):
         self.advertiser = advertiser
+        self.save()
 
     def describeMe(self):
         return "This is class for Ad object"
@@ -80,10 +87,14 @@ class Ad(models.Model):
     def incClicks(self):
         self.advertiser.incClicks()
         self.clicks += 1
+        self.save()
+        self.advertiser.save()
 
     def incViews(self):
         self.advertiser.incViews()
         self.views += 1
+        self.save()
+        self.advertiser.save()
 
     def getViews(self):
         return self.views
