@@ -25,5 +25,10 @@ def showHomePage(request):
         ad.incViews()
     return render(request, 'advertiser_management/home_page.html', context)
 
+
 def createAd(request):
+    return render(request, 'advertiser_management/create_ad.html')
+
+def saveAd(request):
     pass
+
