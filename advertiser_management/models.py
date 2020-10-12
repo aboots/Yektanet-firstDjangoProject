@@ -38,6 +38,9 @@ class Advertiser(models.Model):
     def getViews(self):
         return self.views
 
+    def __str__(self):
+        return self.name
+
 
 class Ad(models.Model):
     title = models.CharField(max_length=200)
@@ -84,3 +87,6 @@ class Ad(models.Model):
 
     def getViews(self):
         return self.views
+
+    def __str__(self):
+        return self.title + " by " + self.advertiser.getName()
