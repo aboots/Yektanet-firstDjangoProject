@@ -27,9 +27,6 @@ def showHomePage(request):
         ad.incViews()
     return render(request, 'advertiser_management/home_page.html', context)
 
-def saveAd(request):
-    pass
-
 
 class AdFromView(FormView):
     form_class = AdForm

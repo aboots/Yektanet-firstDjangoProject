@@ -47,7 +47,7 @@ class Advertiser(models.Model):
 
 class Ad(models.Model):
     title = models.CharField(max_length=200)
-    img = models.ImageField(upload_to='images',default='default.jpg')
+    img = models.ImageField(upload_to='images', default='default.jpg')
     link = models.CharField(max_length=200)
     clicks = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
