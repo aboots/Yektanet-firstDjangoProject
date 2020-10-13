@@ -16,7 +16,7 @@
                     {% for ad in advertiser.ad_set.all %}
                         <div class="card col-md-2 p-0 mx-2">
                             <a href="{% url 'detail' ad.id %}">
-                                <img src="{{ ad.imgUrl }}"
+                                <img src="{{ ad.img.url }}"
                                      class="card-img-top">
                                 <div class="card-body">
                                     <span>{{ ad.title }}</span>
