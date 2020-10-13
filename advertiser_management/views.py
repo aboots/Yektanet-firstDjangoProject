@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.views.generic import RedirectView, FormView
 
 from .forms import AdForm
@@ -26,26 +27,6 @@ def showHomePage(request):
         ad.incViews()
     return render(request, 'advertiser_management/home_page.html', context)
 
-
-def createAd(request):
-    context = {}
-    if request.method == "POST":
-        form = AdForm(request.POST, request.FILES)
-        if form.is_valid():
-            name = form.cleaned_data.get("name")
-            img = form.cleaned_data.get("geeks_field")
-            obj = Ad.objects.create(
-                title=name,
-                img=img
-            )
-            obj.save()
-            print(obj)
-    else:
-        form = AdForm()
-    context['form'] = form
-    return render(request, 'advertiser_management/create_ad.html')
-
-
 def saveAd(request):
     pass
 
@@ -53,7 +34,6 @@ def saveAd(request):
 class AdFromView(FormView):
     form_class = AdForm
     template_name = 'advertiser_management/create_ad.html'
-    success_url = 'advertiser_management/home_page'
 
     def form_valid(self, form):
         title1 = form.cleaned_data.get("title")
@@ -69,4 +49,4 @@ class AdFromView(FormView):
             advertiser=Advertiser.objects.get(pk=advertiser_id1)
         )
         obj1.save()
-        return super().form_valid(form)
+        return HttpResponseRedirect(reverse('advertiser_management:homePage'))
