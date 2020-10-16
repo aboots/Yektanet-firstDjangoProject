@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.views import generic
 from django.views.generic import RedirectView, FormView
 
 from .forms import AdForm
@@ -19,13 +20,15 @@ class AdDetailRedirectView(RedirectView):
         return ad.link
 
 
-def showHomePage(request):
-    advertisers_list = Advertiser.objects.all()
-    context = {"advertisers_list": advertisers_list}
-    ad_lists = Ad.objects.all()
-    for ad in ad_lists:
-        ad.incViews()
-    return render(request, 'advertiser_management/home_page.html', context)
+class HomePageView(generic.ListView):
+    template_name = 'advertiser_management/home_page.html'
+    context_object_name = 'advertisers_list'
+
+    def get_queryset(self):
+        ad_lists = Ad.objects.all()
+        for ad in ad_lists:
+            ad.incViews()
+        return Advertiser.objects.all()
 
 
 class AdFromView(FormView):
