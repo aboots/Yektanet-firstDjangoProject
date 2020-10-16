@@ -18,7 +18,7 @@ class Advertiser(models.Model):
 
     @staticmethod
     def getTotalClicks():
-        return Advertiser.objects.aggregate(Sum('clicks'))
+        return Advertiser.objects.aggregate(Sum('clicks')).get('clicks__sum')
 
     def describeMe(self):
         return "this class is made for advertisers!"
@@ -48,7 +48,7 @@ class Advertiser(models.Model):
 class Ad(models.Model):
     title = models.CharField(max_length=200)
     img = models.ImageField(upload_to='images', default='default.jpg')
-    link = models.CharField(max_length=200)
+    link = models.URLField(max_length=200)
     clicks = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     advertiser = models.ForeignKey(Advertiser, on_delete=models.CASCADE)
@@ -88,13 +88,11 @@ class Ad(models.Model):
         self.advertiser.incClicks()
         self.clicks += 1
         self.save()
-        self.advertiser.save()
 
     def incViews(self):
         self.advertiser.incViews()
         self.views += 1
         self.save()
-        self.advertiser.save()
 
     def getViews(self):
         return self.views
