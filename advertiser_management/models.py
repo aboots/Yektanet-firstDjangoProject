@@ -124,6 +124,9 @@ class Click(models.Model):
     def setIp(self, ip):
         self.user_ip = ip
 
+    def __str__(self):
+        return 'click for ad with id ' + self.ad.id.__str__() + 'with ip '+ self.getIp()
+
 
 class View(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
@@ -138,3 +141,6 @@ class View(models.Model):
 
     def setIp(self, ip):
         self.user_ip = ip
+
+    def __str__(self):
+        return 'view for ad with id ' + self.ad.id.__str__() + 'with ip '+ self.getIp()
