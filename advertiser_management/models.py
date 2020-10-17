@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Sum
 
 # Create your models here.
+from django.utils import timezone
 from django.utils.datetime_safe import datetime
 
 
@@ -83,7 +84,7 @@ class Ad(models.Model):
     def incClicks(self, ip):
         obj1 = Click.objects.create(
             ad=self,
-            time=datetime.now(),
+            time=timezone.now(),
             user_ip=ip
         )
         obj1.save()
@@ -91,7 +92,7 @@ class Ad(models.Model):
     def incViews(self, ip):
         obj1 = View.objects.create(
             ad=self,
-            time=datetime.now(),
+            time=timezone.now(),
             user_ip=ip
         )
         obj1.save()
@@ -114,8 +115,26 @@ class Click(models.Model):
     time = models.DateTimeField(default=datetime.now)
     user_ip = models.GenericIPAddressField()
 
+    def getIp(self):
+        return self.user_ip
+
+    def getTime(self):
+        return self.time
+
+    def setIp(self, ip):
+        self.user_ip = ip
+
 
 class View(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     time = models.DateTimeField(default=datetime.now)
     user_ip = models.GenericIPAddressField()
+
+    def getIp(self):
+        return self.user_ip
+
+    def getTime(self):
+        return self.time
+
+    def setIp(self, ip):
+        self.user_ip = ip

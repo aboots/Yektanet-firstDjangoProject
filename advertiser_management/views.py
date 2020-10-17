@@ -15,7 +15,7 @@ class AdDetailRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         ad = get_object_or_404(Ad, pk=kwargs['pk'])
-        ad.incClicks()
+        # ad.incClicks()
         self.url = ad.link
         return ad.link
 
@@ -25,9 +25,6 @@ class HomePageView(generic.ListView):
     context_object_name = 'advertisers_list'
 
     def get_queryset(self):
-        ad_lists = Ad.objects.all()
-        for ad in ad_lists:
-            ad.incViews()
         return Advertiser.objects.all()
 
 
