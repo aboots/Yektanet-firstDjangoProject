@@ -7,3 +7,7 @@ class AdForm(forms.Form):
     title = forms.CharField()
     link = forms.CharField()
 
+
+class AdDetailForm(forms.Form):
+    ad_id = forms.IntegerField()
+

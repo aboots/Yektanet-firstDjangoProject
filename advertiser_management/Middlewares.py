@@ -30,7 +30,7 @@ class ClicksAdMiddleware:
 
     def __call__(self, request):
         url1 = request.META.get('PATH_INFO')
-        if re.search('/home/\d+', url1):
+        if re.search('/home/\d+', url1) and not re.search('/details', url1):
             x = re.split('/', request.META.get('PATH_INFO'))
             x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
             if x_forwarded_for:
