@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<p> aboots</p>
+<h1> Details of Ad with id {{ object.id }}</h1>
+<p> total clicks = {{ object.getClicks }} </p>
+<p> total views = {{ object.getViews }} </p>
+<p> clicks last 5 hour = {{ object.getLast5HourClicksCount }}</p>
+<p> views last 5 hour = {{ object.getLast5HourViewsCount }}</p>
+<p>  clicks per views in general = {{ object.getClicksPerViews }}</p>
+<p>  clicks per views in 5 last hours sorted = {{ object.getClicksPerViewsCompleteList }}</p>
+<p>  average time between view and click =  {{ object.getAverageBetweenViewAndClick }}</p>
 </body>
 </html>

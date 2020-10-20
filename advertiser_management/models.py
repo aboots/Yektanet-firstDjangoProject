@@ -1,3 +1,6 @@
+import operator
+from datetime import timedelta
+
 from django.db import models
 from django.db.models import Sum
 
@@ -109,6 +112,67 @@ class Ad(models.Model):
     def __str__(self):
         return self.title + " by " + self.advertiser.getName()
 
+    def getLast5HourClicksCount(self):
+        list1 = []
+        for i in range(5):
+            time_threshold = timezone.now() - timedelta(hours=(i + 1))
+            results = self.click_set.filter(time__gt=time_threshold).count()
+            if i > 0:
+                sum1 = 0
+                for j in range(i):
+                    sum1 += list1[j]
+                results -= sum1
+            list1.append(results)
+        return list1
+
+    def getLast5HourViewsCount(self):
+        list2 = []
+        for i in range(5):
+            time_threshold = timezone.now() - timedelta(hours=(i + 1))
+            results = self.view_set.filter(time__gt=time_threshold).count()
+            if i > 0:
+                sum1 = 0
+                for j in range(i):
+                    sum1 += list2[j]
+                results -= sum1
+            list2.append(results)
+        return list2
+
+    def getClicksPerViews(self):
+        if self.view_set.count() != 0:
+            x = self.click_set.count() / self.view_set.count()
+        else:
+            x = 0
+        return round(x, 3)
+
+    def getClicksPerViewsCompleteList(self):
+        list_clicks = self.getLast5HourClicksCount()
+        list_views = self.getLast5HourViewsCount()
+        dictionary1 = {}
+        for i in range(5):
+            if list_views[i] != 0:
+                x = list_clicks[i] / list_views[i]
+                x = round(x, 3)
+            else:
+                x = 0
+            time_threshold = timezone.now() - timedelta(hours=(i + 1))
+            dictionary1['hour ' + str(time_threshold.hour)] = x
+        sorted_dictionary1 = sorted(dictionary1.items(), key=operator.itemgetter(1))
+        sorted_dictionary1.reverse()
+        return sorted_dictionary1
+
+    def getAverageBetweenViewAndClick(self):
+        sum1 = 0
+        for click1 in self.click_set.all():
+            for view1 in self.view_set.all():
+                if view1.getIp() == click1.getIp() and view1.getTime() < click1.getTime():
+                    selected_view = view1
+            time2 = click1.getTime() - selected_view.getTime()
+            sum1 += time2.seconds
+        avg = round(sum1 / self.click_set.count(), 3)
+        print('average second : ' + str(avg))
+        string_average_time = str(timedelta(seconds=avg))
+        return string_average_time
 
 class Click(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
@@ -125,7 +189,7 @@ class Click(models.Model):
         self.user_ip = ip
 
     def __str__(self):
-        return 'click for ad with id ' + self.ad.id.__str__() + 'with ip '+ self.getIp()
+        return 'click for ad with id ' + self.ad.id.__str__() + ' with ip ' + self.getIp()
 
 
 class View(models.Model):
@@ -143,4 +207,4 @@ class View(models.Model):
         self.user_ip = ip
 
     def __str__(self):
-        return 'view for ad with id ' + self.ad.id.__str__() + 'with ip '+ self.getIp()
+        return 'view for ad with id ' + self.ad.id.__str__() + ' with ip ' + self.getIp()
