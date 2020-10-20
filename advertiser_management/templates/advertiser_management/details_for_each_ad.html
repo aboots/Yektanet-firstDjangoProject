@@ -10,8 +10,9 @@
 <p> total views = {{ object.getViews }} </p>
 <p> clicks last 5 hour = {{ object.getLast5HourClicksCount }}</p>
 <p> views last 5 hour = {{ object.getLast5HourViewsCount }}</p>
-<p>  clicks per views in general = {{ object.getClicksPerViews }}</p>
-<p>  clicks per views in 5 last hours sorted = {{ object.getClicksPerViewsCompleteList }}</p>
-<p>  average time between view and click =  {{ object.getAverageBetweenViewAndClick }}</p>
+<p> clicks per views in general = {{ object.getClicksPerViews }}</p>
+<p> clicks per views in 5 last hours sorted = {{ object.getClicksPerViewsCompleteList }}</p>
+<p> average time between view and click = {{ object.getAverageBetweenViewAndClick }}</p>
+<a href="{% url 'advertiser_management:homePage' %}">go to homePage?</a>
 </body>
 </html>

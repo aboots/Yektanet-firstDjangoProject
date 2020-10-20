@@ -170,9 +170,10 @@ class Ad(models.Model):
             time2 = click1.getTime() - selected_view.getTime()
             sum1 += time2.seconds
         avg = round(sum1 / self.click_set.count(), 3)
-        print('average second : ' + str(avg))
+        print('average seconds : ' + str(avg))
         string_average_time = str(timedelta(seconds=avg))
         return string_average_time
+
 
 class Click(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
