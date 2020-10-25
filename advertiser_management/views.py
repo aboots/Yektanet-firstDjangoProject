@@ -15,7 +15,6 @@ class AdDetailRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         ad = get_object_or_404(Ad, pk=kwargs['pk'])
-        # ad.incClicks()
         self.url = ad.link
         return ad.link
 

@@ -4,7 +4,6 @@ from datetime import timedelta
 from django.db import models
 from django.db.models import Sum
 
-# Create your models here.
 from django.utils import timezone
 from django.utils.datetime_safe import datetime
 
