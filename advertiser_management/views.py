@@ -105,7 +105,7 @@ class AdViewSet(viewsets.ModelViewSet):
         ad = self.get_object()
         return Response({'link': ad.link})
 
-    @action(detail=True, methods=['get'], permission_classes=[permissions.IsAdminUser|IsOwner])
+    @action(detail=True, methods=['get'], permission_classes=[permissions.IsAdminUser | IsOwner])
     def get_ad_special_details(self, request, pk=None):
         ad = self.get_object()
         return Response({'id': ad.id,
