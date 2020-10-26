@@ -3,9 +3,11 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 from django.views.generic import RedirectView, FormView
+from rest_framework import viewsets
 
 from .forms import AdForm, AdDetailForm
-from .models import Ad, Advertiser
+from .models import Ad, Advertiser, View, Click
+from .serializers import AdSerializer, AdvertiserSerializer, ViewSerializer, ClickSerializer
 
 
 class AdDetailRedirectView(RedirectView):
@@ -61,3 +63,27 @@ class SearchAdForm(FormView):
         ad_id = form.cleaned_data.get('ad_id')
         ad = get_object_or_404(Ad, pk=ad_id)
         return HttpResponseRedirect(reverse('advertiser_management:adDetails', args=(ad_id,)))
+
+
+class AdViewSet(viewsets.ModelViewSet):
+    queryset = Ad.objects.all()
+    serializer_class = AdSerializer
+    # permission_classes = []
+
+
+class AdvertiserViewSet(viewsets.ModelViewSet):
+    queryset = Advertiser.objects.all()
+    serializer_class = AdvertiserSerializer
+    # permission_classes = []
+
+
+class ClickViewSet(viewsets.ModelViewSet):
+    queryset = Click.objects.all()
+    serializer_class = ClickSerializer
+    # permission_classes = []
+
+
+class ViewViewSet(viewsets.ModelViewSet):
+    queryset = View.objects.all()
+    serializer_class = ViewSerializer
+    # permission_classes = []
