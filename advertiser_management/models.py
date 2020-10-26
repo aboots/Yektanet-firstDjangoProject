@@ -15,9 +15,17 @@ from rest_framework.authtoken.models import Token
 
 class Advertiser(models.Model):
     name = models.CharField(max_length=200)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
     def getName(self):
         return self.name
+
+    def getUser(self):
+        return self.user
+
+    def setUser(self, user):
+        self.user = user
+        self.save()
 
     def setName(self, name):
         self.name = name
