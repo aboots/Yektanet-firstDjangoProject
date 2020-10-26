@@ -12,7 +12,7 @@ from rest_framework.permissions import AllowAny
 
 from .forms import AdForm, AdDetailForm
 from .models import Ad, Advertiser, View, Click
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsOwner
 from .serializers import AdSerializer, AdvertiserSerializer, ViewSerializer, ClickSerializer
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -105,7 +105,7 @@ class AdViewSet(viewsets.ModelViewSet):
         ad = self.get_object()
         return Response({'link': ad.link})
 
-    @action(detail=True, methods=['get'], permission_classes=[permissions.IsAdminUser])
+    @action(detail=True, methods=['get'], permission_classes=[permissions.IsAdminUser|IsOwner])
     def get_ad_special_details(self, request, pk=None):
         ad = self.get_object()
         return Response({'id': ad.id,
