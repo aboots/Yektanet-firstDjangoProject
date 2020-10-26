@@ -105,6 +105,19 @@ class AdViewSet(viewsets.ModelViewSet):
         ad = self.get_object()
         return Response({'link': ad.link})
 
+    @action(detail=True, methods=['get'],permission_classes=[permissions.IsAdminUser])
+    def get_ad_special_details(self, request, pk=None):
+        ad = self.get_object()
+        return Response({'id': ad.id,
+                         'total clicks': ad.getClicks(),
+                         'total views': ad.getViews(),
+                         'clicks last 5 hour': ad.getLast5HourClicksCount(),
+                         'views last 5 hour': ad.getLast5HourViewsCount(),
+                         'clicks per views in general': ad.getClicksPerViews(),
+                         'clicks per views in 5 last hours sorted': ad.getClicksPerViewsCompleteList(),
+                         'average time between view and click': ad.getAverageBetweenViewAndClick()
+                         })
+
 
 class AdvertiserViewSet(viewsets.ModelViewSet):
     queryset = Advertiser.objects.all()

@@ -10,6 +10,7 @@ class ViewAdMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        print(request.user)
         if request.META.get('PATH_INFO') == '/home/':
             x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
             if x_forwarded_for:
